@@ -1566,11 +1566,12 @@ const fs = __nccwpck_require__(147);
 const path = __nccwpck_require__(17);
 const core = __nccwpck_require__(186);
 function getOptions() {
+    const inAct = !!process.env.ACT;
     return {
         fileTarget: core.getInput('file_target', { required: true }),
         isFile: core.getBooleanInput('is_file', { required: true }),
         valueIn: core.getInput('value_in', { required: true, trimWhitespace: false }),
-        workspace: process.env.GITHUB_WORKSPACE,
+        workspace: `${process.env.GITHUB_WORKSPACE}${inAct ? '/action-prepend' : ''}`,
     };
 }
 function handleAction() {
