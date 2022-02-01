@@ -51,7 +51,7 @@ describe('Basic Tests', () => {
     try {
       expect(handleAction).not.toThrow();
 
-      expect(getInputSpy).toBeCalledTimes(2);
+      expect(getInputSpy).toBeCalledTimes(3);
       expect(getBooleanInputSpy).toBeCalledTimes(1);
       expect(readFileSyncSpy).toBeCalledTimes(1);
       expect(writeFileSyncSpy).toBeCalledTimes(1);
@@ -79,6 +79,7 @@ describe('Basic Tests', () => {
 
   it('Appending File Value Works As Expected', () => {
     const outputs: Record<string, string> = {};
+    const delim = '\n\n';
     const existingValueData = `## 0.0.0
 
 - Initial version.
@@ -95,6 +96,7 @@ describe('Basic Tests', () => {
     const inputs: Record<string, string> = {
       file_target: 'changelog.md',
       value_in: 'temp_changelog.md',
+      delimiter: delim,
       is_file: 'true',
       'changelog.md': existingValueData,
       'temp_changelog.md': valueInData,
@@ -126,7 +128,7 @@ describe('Basic Tests', () => {
     try {
       expect(handleAction).not.toThrow();
 
-      expect(getInputSpy).toBeCalledTimes(2);
+      expect(getInputSpy).toBeCalledTimes(3);
       expect(getBooleanInputSpy).toBeCalledTimes(1);
       expect(readFileSyncSpy).toBeCalledTimes(2);
       expect(writeFileSyncSpy).toBeCalledTimes(1);
@@ -134,9 +136,10 @@ describe('Basic Tests', () => {
       expect(renameSync).toBeCalledTimes(1);
       expect(setFailedSpy).toBeCalledTimes(0);
       expect(outputs[inputs['file_target']]).toBeDefined();
+      expect(outputs[inputs['file_target']]).toContain(delim);
       expect(outputs[inputs['file_target']]).toContain(valueInData);
       expect(outputs[inputs['file_target']]).toContain(existingValueData);
-      expect(outputs[inputs['file_target']]).toContain(valueInData + existingValueData);
+      expect(outputs[inputs['file_target']]).toContain(valueInData + delim + existingValueData);
     } finally {
       [
         getInputSpy,

@@ -1568,8 +1568,9 @@ const core = __nccwpck_require__(186);
 function getOptions() {
     return {
         fileTarget: core.getInput('file_target', { required: true }),
-        valueIn: core.getInput('value_in', { required: true }),
         isFile: core.getBooleanInput('is_file', { required: true }),
+        valueIn: core.getInput('value_in', { required: true }),
+        delimiter: core.getInput('delimiter', { required: false }),
     };
 }
 function handleAction() {
@@ -1579,7 +1580,8 @@ function handleAction() {
         const prependValue = opts.isFile ? fs.readFileSync(opts.valueIn, 'utf-8') : opts.valueIn;
         const tempFilePath = path.normalize(`./prepend-${Date.now()}.${targetExt}`);
         const finalFilePath = path.normalize(path.join(__dirname, opts.fileTarget));
-        fs.writeFileSync(tempFilePath, prependValue, 'utf-8');
+        const delimiter = opts.delimiter ?? '';
+        fs.writeFileSync(tempFilePath, prependValue + delimiter, 'utf-8');
         fs.appendFileSync(tempFilePath, fs.readFileSync(opts.fileTarget, 'utf-8'));
         fs.renameSync(tempFilePath, opts.fileTarget);
         core.info(`Wrote prepended update to ${finalFilePath}`);
