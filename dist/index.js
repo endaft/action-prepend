@@ -1569,7 +1569,7 @@ function getOptions() {
     return {
         fileTarget: core.getInput('file_target', { required: true }),
         isFile: core.getBooleanInput('is_file', { required: true }),
-        valueIn: core.getInput('value_in', { required: true }),
+        valueIn: core.getInput('value_in', { required: true, trimWhitespace: false }),
     };
 }
 function handleAction() {

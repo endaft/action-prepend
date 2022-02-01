@@ -12,7 +12,7 @@ function getOptions(): PrependOptions {
   return {
     fileTarget: core.getInput('file_target', { required: true }),
     isFile: core.getBooleanInput('is_file', { required: true }),
-    valueIn: core.getInput('value_in', { required: true }),
+    valueIn: core.getInput('value_in', { required: true, trimWhitespace: false }),
   };
 }
 

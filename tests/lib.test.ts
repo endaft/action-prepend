@@ -137,7 +137,6 @@ describe('Basic Tests', () => {
       expect(outputs[inputs['file_target']]).toContain(valueInData);
       expect(outputs[inputs['file_target']]).toContain(existingValueData);
       expect(outputs[inputs['file_target']]).toContain(valueInData + existingValueData);
-      console.info(outputs[inputs['file_target']]);
     } finally {
       [
         getInputSpy,

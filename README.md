@@ -15,11 +15,11 @@ This example demonstrates using this action to pre-pend the `changelog.md` file 
     config_file: .github/tag-changelog-config.js
 
 - name: ✍🏼 Prepend Changelog
-  uses: endaft/action-prepend@v0.0.2
+  uses: endaft/action-prepend@v0.0.4
   with:
-    file_target: ./CHANGELOG.md
-    value_in: format('{0}\n', ${{ steps.changelog.outputs.changelog }})
-    is_file: 'false'
+    file_target: CHANGELOG.md
+    value_in: ${{ format('{0}\n', steps.changelog.outputs.changelog) }}
+    is_file: "false"
 ```
 
 ## Inputs
