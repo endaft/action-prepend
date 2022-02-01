@@ -29,7 +29,6 @@ This example demonstrates using this action to pre-pend the `changelog.md` file 
 | **file_target** | `true`   | The path to a file to which data will be pre-pended.                |         |
 | **value_in**    | `true`   | The value, or file path of a value, to be pre-pended.               |         |
 | **is_file**     | `true`   | Whether or not to get the `in_value` is a file path.                | `false` |
-| **delimiter**   | `false`  | A value to place after the `value_in` and before the previous data. |         |
 
 ## Outputs
 
