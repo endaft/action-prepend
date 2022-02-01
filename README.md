@@ -15,7 +15,7 @@ This example demonstrates using this action to pre-pend the `changelog.md` by ap
     config_file: .github/tag-changelog-config.js
 
 - name: ✍🏼 Prepend Changelog
-  uses: endaft/action-prepend@v1.0.0
+  uses: endaft/action-prepend@v0.0.1
   with:
     file_target: ./CHANGELOG.md
     value_in: ${{ steps.changelog.outputs.changelog }}
