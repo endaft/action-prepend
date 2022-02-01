@@ -1,10 +1,10 @@
 # action-prepend
 
-This GitHub Action is for easily pre-pending values, including other files, into a target file.
+This GitHub Action helps easily pre-pend values, including other files, into a target file.
 
 ## Example
 
-This example demonstrates using this action to pre-pend the `changelog.md` by appending calculated output from a .
+This example demonstrates using this action to pre-pend the `changelog.md` file with calculated output from `loopwerk/tag-changelog`.
 
 ```yaml
 - name: ✍🏼 Create Changelog Update
@@ -15,7 +15,7 @@ This example demonstrates using this action to pre-pend the `changelog.md` by ap
     config_file: .github/tag-changelog-config.js
 
 - name: ✍🏼 Prepend Changelog
-  uses: endaft/action-prepend@v0.0.1
+  uses: endaft/action-prepend@v0.0.2
   with:
     file_target: ./CHANGELOG.md
     value_in: ${{ steps.changelog.outputs.changelog }}
