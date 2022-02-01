@@ -18,9 +18,8 @@ This example demonstrates using this action to pre-pend the `changelog.md` file 
   uses: endaft/action-prepend@v0.0.2
   with:
     file_target: ./CHANGELOG.md
-    value_in: ${{ steps.changelog.outputs.changelog }}
+    value_in: format('{0}\n', ${{ steps.changelog.outputs.changelog }})
     is_file: 'false'
-    delimiter: '\n\n'
 ```
 
 ## Inputs
