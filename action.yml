@@ -1,0 +1,20 @@
+name: "action-prepend"
+description: "A GitHub Action for easily pre-pending values, including from other files, into a target file."
+branding:
+  icon: edit
+  color: blue
+
+inputs:
+  file_target:
+    description: "The path to a file to which data will be pre-pended."
+    required: true
+  value_in:
+    description: "The value, or file path of a value, to be pre-pended."
+    required: true
+  is_file:
+    description: "Whether or not to get the `in_value` is a file path."
+    required: true
+    default: 'false'
+runs:
+  using: "node12"
+  main: "dist/index.js"
