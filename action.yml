@@ -19,5 +19,5 @@ inputs:
     description: "A value to place after the `value_in` and before the previous data."
     required: false
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/index.js"
