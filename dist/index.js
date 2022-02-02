@@ -1571,7 +1571,7 @@ function getOptions() {
         fileTarget: core.getInput('file_target', { required: true }),
         isFile: core.getBooleanInput('is_file', { required: true }),
         valueIn: core.getInput('value_in', { required: true, trimWhitespace: false }),
-        workspace: `${process.env.GITHUB_WORKSPACE}${inAct ? '/action-prepend' : ''}`,
+        workspace: `${process.env.GITHUB_WORKSPACE ?? ''}${inAct ? '/action-prepend' : ''}`,
     };
 }
 function handleAction() {
@@ -1579,7 +1579,7 @@ function handleAction() {
         const opts = getOptions();
         const targetExt = path.extname(opts.fileTarget);
         const prependValue = opts.isFile ? fs.readFileSync(opts.valueIn, 'utf-8') : opts.valueIn;
-        const tempFilePath = path.normalize(`./prepend-${Date.now()}.${targetExt}`);
+        const tempFilePath = path.normalize(`./prepend-${Date.now()}${targetExt}`);
         const finalFilePath = path.normalize(path.join(opts.workspace, opts.fileTarget));
         fs.writeFileSync(tempFilePath, prependValue, 'utf-8');
         fs.appendFileSync(tempFilePath, fs.readFileSync(opts.fileTarget, 'utf-8'));
