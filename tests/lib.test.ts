@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as core from '@actions/core';
 import { handleAction } from '../src/lib';
 
@@ -34,14 +35,14 @@ describe('Basic Tests', () => {
     const setFailedSpy = jest.spyOn(core, 'setFailed').mockImplementation((message: string | Error) => {
       throw message instanceof Error ? message : new Error(message);
     });
-    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync').mockImplementation((path: string) => {
-      return inputs[path];
+    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync').mockImplementation((filePath: string) => {
+      return inputs[filePath] ?? inputs[path.basename(filePath)];
     });
-    const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync').mockImplementation((path: string, data: string) => {
-      outputs[path] = data;
+    const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync').mockImplementation((filePath: string, data: string) => {
+      outputs[filePath] = data;
     });
-    const appendFileSyncSpy = jest.spyOn(fs, 'appendFileSync').mockImplementation((path: string, data: string) => {
-      outputs[path] += data;
+    const appendFileSyncSpy = jest.spyOn(fs, 'appendFileSync').mockImplementation((filePath: string, data: string) => {
+      outputs[filePath] += data;
     });
     const renameSync = jest.spyOn(fs, 'renameSync').mockImplementation((oldPath: string, newPath: string) => {
       outputs[newPath] = outputs[oldPath];
@@ -50,6 +51,7 @@ describe('Basic Tests', () => {
 
     try {
       expect(handleAction).not.toThrow();
+      const finalTargetPath = path.resolve(inputs['file_target']);
 
       expect(getInputSpy).toBeCalledTimes(2);
       expect(getBooleanInputSpy).toBeCalledTimes(1);
@@ -58,10 +60,10 @@ describe('Basic Tests', () => {
       expect(appendFileSyncSpy).toBeCalledTimes(1);
       expect(renameSync).toBeCalledTimes(1);
       expect(setFailedSpy).toBeCalledTimes(0);
-      expect(outputs[inputs['file_target']]).toBeDefined();
-      expect(outputs[inputs['file_target']]).toContain(valueInData);
-      expect(outputs[inputs['file_target']]).toContain(existingValueData);
-      expect(outputs[inputs['file_target']]).toContain(valueInData + existingValueData);
+      expect(outputs[finalTargetPath]).toBeDefined();
+      expect(outputs[finalTargetPath]).toContain(valueInData);
+      expect(outputs[finalTargetPath]).toContain(existingValueData);
+      expect(outputs[finalTargetPath]).toContain(valueInData + existingValueData);
     } finally {
       [
         getInputSpy,
@@ -109,14 +111,14 @@ describe('Basic Tests', () => {
     const setFailedSpy = jest.spyOn(core, 'setFailed').mockImplementation((message: string | Error) => {
       throw message instanceof Error ? message : new Error(message);
     });
-    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync').mockImplementation((path: string) => {
-      return inputs[path];
+    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync').mockImplementation((filePath: string) => {
+      return inputs[filePath] ?? inputs[path.basename(filePath)];
     });
-    const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync').mockImplementation((path: string, data: string) => {
-      outputs[path] = data;
+    const writeFileSyncSpy = jest.spyOn(fs, 'writeFileSync').mockImplementation((filePath: string, data: string) => {
+      outputs[filePath] = data;
     });
-    const appendFileSyncSpy = jest.spyOn(fs, 'appendFileSync').mockImplementation((path: string, data: string) => {
-      outputs[path] += data;
+    const appendFileSyncSpy = jest.spyOn(fs, 'appendFileSync').mockImplementation((filePath: string, data: string) => {
+      outputs[filePath] += data;
     });
     const renameSync = jest.spyOn(fs, 'renameSync').mockImplementation((oldPath: string, newPath: string) => {
       outputs[newPath] = outputs[oldPath];
@@ -125,6 +127,7 @@ describe('Basic Tests', () => {
 
     try {
       expect(handleAction).not.toThrow();
+      const finalTargetPath = path.resolve(inputs['file_target']);
 
       expect(getInputSpy).toBeCalledTimes(2);
       expect(getBooleanInputSpy).toBeCalledTimes(1);
@@ -133,10 +136,10 @@ describe('Basic Tests', () => {
       expect(appendFileSyncSpy).toBeCalledTimes(1);
       expect(renameSync).toBeCalledTimes(1);
       expect(setFailedSpy).toBeCalledTimes(0);
-      expect(outputs[inputs['file_target']]).toBeDefined();
-      expect(outputs[inputs['file_target']]).toContain(valueInData);
-      expect(outputs[inputs['file_target']]).toContain(existingValueData);
-      expect(outputs[inputs['file_target']]).toContain(valueInData + existingValueData);
+      expect(outputs[finalTargetPath]).toBeDefined();
+      expect(outputs[finalTargetPath]).toContain(valueInData);
+      expect(outputs[finalTargetPath]).toContain(existingValueData);
+      expect(outputs[finalTargetPath]).toContain(valueInData + existingValueData);
     } finally {
       [
         getInputSpy,
