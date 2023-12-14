@@ -48,6 +48,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          CURRENT_BRANCH=${GITHUB_REF}
+          case $CURRENT_BRANCH in "refs/heads/"*)
+              CURRENT_BRANCH=$(echo "$CURRENT_BRANCH" | sed "s@refs/heads/@@")
+          esac
           LATEST_TAG=$(gh api repos/endaft/$(basename $PWD)/releases/latest --jq=.tag_name)
           IFS=. read -r v1 v2 v3 <<< "${LATEST_TAG}"    # split into (integer) components
           v3=$((v3 + 1))                                # do the math
@@ -57,4 +61,4 @@ jobs:
           git commit -a -m "chore: updates dist js"
           git tag -f "$LATEST_TAG" -m "Version $LATEST_TAG"
           git tag -f latest -m "The latest version"
-          git push --follow-tags --force --tags
+          git push "$CURRENT_BRANCH:$CURRENT_BRANCH" --follow-tags --force --tags
